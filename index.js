@@ -1,7 +1,6 @@
 const fs = require("fs/promises");
 const { faker } = require("@faker-js/faker");
 const pt = require("puppeteer-extra");
-const { HttpsProxyAgent } = require("https-proxy-agent");
 const axios = require("axios");
 require("dotenv").config();
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
@@ -153,11 +152,6 @@ const checkConnect = async (page, emailAddress) => {
 };
 
 const readMail = async (email, upwork) => {
-  const agent = new HttpsProxyAgent({
-    host: "95.217.195.225",
-    port: "8282",
-    auth: "luis:montoya",
-  });
   const hrefRegex =
     /href="(https:\/\/www\.upwork\.com\/nx\/signup\/verify-email\/token\/[^"]*)"/;
   let match = "",
@@ -172,7 +166,6 @@ const readMail = async (email, upwork) => {
             .reverse()
             .join("%2F")}`,
         },
-        httpsAgent: agent,
       });
       match = resp.data.match(hrefRegex);
       count++;
@@ -205,11 +198,7 @@ const readMail = async (email, upwork) => {
     const start = performance.now();
     const browser = await pt.launch({
       headless: false,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--proxy-server=http://95.217.195.225:8282",
-      ],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     try {
       const etempMail = await browser.newPage();
