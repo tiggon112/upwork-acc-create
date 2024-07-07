@@ -197,15 +197,15 @@ const readMail = async (email, upwork) => {
     // const proxyPassword = proxy.split(":")[3];
     const start = performance.now();
     const browser = await pt.launch({
-      headless: false,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     try {
       const etempMail = await browser.newPage();
-      await etempMail.authenticate({
-        username: "luis",
-        password: "montoya",
-      });
+      // await etempMail.authenticate({
+      //   username: "luis",
+      //   password: "montoya",
+      // });
       await etempMail.goto("https://generator.email");
       let emailAddress = `${faker.person.firstName(
         "male"
