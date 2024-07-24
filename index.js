@@ -5,6 +5,11 @@ const axios = require("axios");
 require("dotenv").config();
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 pt.use(StealthPlugin());
+const { WebClient } = require("@slack/web-api");
+
+const token = process.env.token;
+const channel = process.env.channel;
+const web = new WebClient(token);
 
 const domain = process.env.domain;
 const country = process.env.country;
@@ -91,7 +96,7 @@ pt.use(
   })
 );
 
-const PASSWORD = "1102jinhouling";
+const PASSWORD = "QWE@#$asd234";
 
 const getRandomNumber = () => {
   return Math.floor(Math.random() * (999999 - 100000) + 100000);
@@ -140,6 +145,11 @@ const checkConnect = async (page, emailAddress) => {
   });
   if (listCount == 3) {
     try {
+      const result = await web.chat.postMessage({
+        channel: channel,
+        text: `Success email registered: \`${emailAddress}\` Password: \`${PASSWORD}\``,
+      });
+      console.log(result);
       await fs.access("accounts.txt");
       await fs.appendFile("accounts.txt", emailAddress + "\n");
     } catch (err) {
@@ -250,7 +260,7 @@ const readMail = async (email, upwork) => {
       console.log(err);
       browser.close();
     } finally {
-      await delay(100000 + Math.random() * 60000);
+      await delay(60000 + Math.random() * 60000);
     }
   }
 })();
