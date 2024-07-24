@@ -149,7 +149,6 @@ const checkConnect = async (page, emailAddress) => {
         channel: channel,
         text: `Success email registered: \`${emailAddress}\` Password: \`${PASSWORD}\``,
       });
-      console.log(result);
       await fs.access("accounts.txt");
       await fs.appendFile("accounts.txt", emailAddress + "\n");
     } catch (err) {
