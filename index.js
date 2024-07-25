@@ -137,6 +137,7 @@ const checkConnect = async (page, emailAddress) => {
   await page.goto("https://www.upwork.com/nx/create-profile/", {
     waitUntil: "domcontentloaded",
   });
+  await delay(10000);
   await page.waitForSelector("ul.welcome-step1-list");
   await delay(1500);
   const listCount = await page.evaluate(() => {
